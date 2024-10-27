@@ -12,9 +12,7 @@ async function getItem(id: Number) {
 
 export async function ClientComponent() {
   console.log('Rendering <ClientComponent />');
-  console.log(await getItem(0)); // cache MISS : This function is only executed the first time
-  console.log(await getItem(1)); // cache MISS
-  console.log(await getItem(2)); // cache MISS
-  console.log(await getItem(1)); // cache HIT
-  return <p>The last call to getItem() didn&apost fire fetch().</p>;
+  let a = [await getItem(0),await getItem(1),await getItem(2),await getItem(1)];
+console.log(a);
+  return <p>{a.map(e=>`${e.x} `)}</p>;
 }
