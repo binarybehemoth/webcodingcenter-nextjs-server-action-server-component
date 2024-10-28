@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useState} from 'react';
-import {action} from "./actions";
+import {action} from "@/app/actions";
 async function getItem(id: Number) {
   console.log('getting item for id ' + id);
   const res = await fetch(
