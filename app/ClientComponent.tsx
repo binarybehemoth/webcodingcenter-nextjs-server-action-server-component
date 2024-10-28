@@ -12,7 +12,6 @@ async function getItem(id: Number) {
 
 export async function ClientComponent() {
   console.log('Rendering <ClientComponent />');
-  let a = [await getItem(0),await getItem(1),await getItem(2),await getItem(1)];
-console.log(a);
+  let a = [await getItem(0),await getItem(1),await getItem(2),await getItem(1),await getItem(1),await getItem(1)];
   return <p>{a.map(e=>`${e.x} `)}</p>;
 }
