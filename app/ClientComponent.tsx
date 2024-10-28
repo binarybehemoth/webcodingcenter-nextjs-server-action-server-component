@@ -3,6 +3,7 @@
 import {useEffect, useState, useCallback, use} from 'react';
 import {action} from "./actions";
 async function getItem(id: Number) {
+  action();
   console.log('getting item for id ' + id);
   const res = await fetch(
     // The `fetch` function is automatically memoized and the result is cached
@@ -21,8 +22,7 @@ export function ClientComponent() {
   const [x,setX] = useState<Array<T>>([]);
   let xx:T[]=[];
   useEffect(()=>{
-    action();
-    Promise.all([getItem(0),getItem(0),getItem(0),getItem(0),getItem(0),getItem(0)]).then(x=>{xx=x});
+    Promise.all([getItem(0),getItem(0),getItem(0),getItem(2),getItem(2),getItem(2)]).then(x=>{xx=x});
   },[x]);
   let act = useCallback(()=>{
     
