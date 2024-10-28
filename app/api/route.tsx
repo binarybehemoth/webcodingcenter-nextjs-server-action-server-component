@@ -6,5 +6,7 @@ export function GET(request: NextRequest) {
   console.log('fetching...' + request.nextUrl.searchParams.get('id'));
   n++;
   revalidatePath('/api?id='+ request.nextUrl.searchParams.get('id'));
-  return Response.json({ x: n });
+  const res =  Response.json({ x: n });
+  res.headers.set('Access-Control-Allow-Origin', '*'); // Allow all origins, or specify a particular origin
+  return res;
 }
