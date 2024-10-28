@@ -5,6 +5,6 @@ let n=0;
 export function GET(request: NextRequest) {
   console.log('fetching...' + request.nextUrl.searchParams.get('id'));
   n++;
-  revalidatePath('/api');
+  revalidatePath('https://webcodingcenter-nextjs-server-action-server-component.vercel.app/api');
   return Response.json({ x: n });
 }
