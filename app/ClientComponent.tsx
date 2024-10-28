@@ -1,6 +1,6 @@
 'use client';
 
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useCallback, use} from 'react';
 import {action} from "./actions";
 async function getItem(id: Number) {
   console.log('getting item for id ' + id);
@@ -19,16 +19,17 @@ interface T{
 export function ClientComponent() {
   console.log('Rendering <ClientComponent />');
   const [x,setX] = useState<Array<T>>([]);
+  let xx:T[]=[];
   useEffect(()=>{
-    async function get(n:Number){
-      return await getItem(n);
-    }
-    (Promise.all([get(0), get(1), get(2), get(1), get(1), get(1)])as Promise<[T,T,T,T,T,T]>).then(a=>{
-      setX(a);
-      console.log(x);
-    })
-  });
+    action();
+    Promise.all([getItem(0),getItem(0),getItem(0),getItem(0),getItem(0),getItem(0)]).then(x=>{xx=x});
+  },[x]);
+  let act = useCallback(()=>{
+    
+    setX(xx);
+  },[x]);
   return <>
-            <button onClick={action}>{x.map(e=>`${e.x} `)}</button>;
+            <p>{x.map(e=>`${e.x} `)}</p>
+            <button onClick={act}>act</button>;
          </>
 }
