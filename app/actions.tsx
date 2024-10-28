@@ -3,5 +3,6 @@
 import { revalidatePath } from "next/cache";
 
 export async function action() {
-  revalidatePath("/api?id=1");
+   console.log('revalidating');
+  revalidatePath(`https://webcodingcenter-nextjs-server-action-server-component.vercel.app/api?id=0`);
 }

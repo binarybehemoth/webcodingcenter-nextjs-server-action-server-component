@@ -1,14 +1,24 @@
-'use client';
-
-import {useEffect, useState, useCallback, use} from 'react';
+//'use client';
+import { revalidatePath } from "next/cache";
 import {action} from "./actions";
-async function getItem(id: Number) {
-  action();
+
+function sleep(ms:number): Promise<void>{
+   return new Promise((resolve)=>{
+      setTimeout(()=>{
+         resolve();
+      },ms);
+   })
+}
+
+async function getItem(id: number, ms:number) {
+  await sleep(ms);
+  //action();
   console.log('getting item for id ' + id);
   const res = await fetch(
     // The `fetch` function is automatically memoized and the result is cached
-    `https://webcodingcenter-nextjs-server-action-server-component.vercel.app/api?id=${id}`,{cache:'force-cache'}
+    `https://webcodingcenter-nextjs-server-action-server-component.vercel.app/api?id=${id}`,{cache:'force-cache' }
   );
+  //revalidatePath("/api");
   //console.log(await res.json());
   return await res.json();
 }
@@ -17,19 +27,27 @@ interface T{
   x:Number
 }
 
-export function ClientComponent() {
+export async function ClientComponent() {
   console.log('Rendering <ClientComponent />');
-  const [x,setX] = useState<Array<T>>([]);
+  //const [x,setX] = useState<Array<T>>([]);
   let xx:T[]=[];
-  useEffect(()=>{
-    Promise.all([getItem(0),getItem(0),getItem(0),getItem(2),getItem(2),getItem(2)]).then(x=>{xx=x});
-  },[x]);
-  let act = useCallback(()=>{
-    
-    setX(xx);
-  },[x]);
+  //const b = useRef<HTMLButtonElement>(null);
+  //useEffect(()=>{
+    //if (b.current) b.current.disabled = true;
+
+    await Promise.all([getItem(0,1000),getItem(0,2000),getItem(0,3000),getItem(2,4000),getItem(2,5000),getItem(2,6000)]).then(x=>{
+      xx=x;
+    //  if (b.current) b.current.disabled = false;
+
+
+    });
+  //},[x]);
+  //let act = useCallback(()=>{
+//    console.log(x);
+    //setX(xx);
+  //},[x]);
   return <>
-            <p>{x.map(e=>`${e.x} `)}</p>
-            <button onClick={act}>act</button>;
+            <p>{xx.map(e=>`${e.x} `)}</p>
+            <button onClick={action}>act</button>;
          </>
 }
